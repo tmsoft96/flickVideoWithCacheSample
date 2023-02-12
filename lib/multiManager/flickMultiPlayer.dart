@@ -3,6 +3,7 @@ import 'dart:io';
 import 'package:flick_video_player/flick_video_player.dart';
 
 import 'package:flutter/material.dart';
+import 'package:try_work/cachedImage.dart';
 import 'package:try_work/multiManager/flickMultiManager.dart';
 import 'package:try_work/portraitControls.dart';
 import 'package:visibility_detector/visibility_detector.dart';
@@ -69,9 +70,12 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
   Widget build(BuildContext context) {
     return flickManager == null
         ? Positioned.fill(
-            child: Image.network(
-              widget.image!,
+            child: cachedImage(
+              image: widget.image!,
               fit: BoxFit.cover,
+              context: context,
+              height: MediaQuery.of(context).size.width,
+              width: MediaQuery.of(context).size.width,
             ),
           )
         : VisibilityDetector(
@@ -88,9 +92,12 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                   child: Stack(
                     children: <Widget>[
                       Positioned.fill(
-                        child: Image.network(
-                          widget.image!,
+                        child: cachedImage(
+                          image: widget.image!,
                           fit: BoxFit.cover,
+                          context: context,
+                          height: MediaQuery.of(context).size.width,
+                          width: MediaQuery.of(context).size.width,
                         ),
                       ),
                       Center(
@@ -102,6 +109,15 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                     ],
                   ),
                 ),
+                playerErrorFallback: Stack(
+                  children: [
+                    Center(
+                      child: Text(
+                        "No internet scroll down to view offline data",
+                      ),
+                    ),
+                  ],
+                ),
                 controls: FeedPlayerPortraitControls(
                   flickMultiManager: widget.flickMultiManager,
                   flickManager: flickManager,
@@ -109,9 +125,12 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
               ),
               flickVideoWithControlsFullscreen: FlickVideoWithControls(
                 playerLoadingFallback: Center(
-                  child: Image.network(
-                    widget.image!,
+                  child: cachedImage(
+                    image: widget.image!,
                     fit: BoxFit.cover,
+                    context: context,
+                    height: MediaQuery.of(context).size.width,
+                    width: MediaQuery.of(context).size.width,
                   ),
                 ),
                 controls: FlickLandscapeControls(),
