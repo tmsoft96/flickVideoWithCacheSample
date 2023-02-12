@@ -69,6 +69,8 @@ class _FeedPlayerState extends State<FeedPlayer> {
       onDownloadComplete: (String? savePath) async {
         print(savePath);
         mockData['items'][index]["cache"] = savePath;
+        items = mockData["items"];
+        setState(() {});
       },
       onProgress: (
         int rec,
