@@ -48,8 +48,8 @@ Future<void> downloadFile(
       },
     );
     onDownloadComplete!(savePath);
+  // ignore: empty_catches
   } catch (e) {
-    print(e);
   }
 }
 
@@ -63,10 +63,11 @@ Future<String> getFilePath(
       ? await getApplicationSupportDirectory()
       : await getApplicationDocumentsDirectory();
 
-  if (uniqueFileName.contains("?"))
+  if (uniqueFileName.contains("?")) {
     path = '${dir.path}/${uniqueFileName.split("?").first}';
-  else
+  } else {
     path = '${dir.path}/$uniqueFileName';
+  }
 
   return path;
 }
