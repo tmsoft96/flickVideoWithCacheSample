@@ -1,9 +1,10 @@
 import 'package:flick_video_player/flick_video_player.dart';
 
 class FlickMultiManager {
-  List<FlickManager> _flickManagers = [];
+  final List<FlickManager> _flickManagers = [];
   FlickManager? _activeManager;
   bool _isMute = false;
+  bool _isFullscreen = false;
 
   init(FlickManager flickManager) {
     _flickManagers.add(flickManager);
@@ -57,10 +58,26 @@ class FlickMultiManager {
     _activeManager?.flickControlManager?.toggleMute();
     _isMute = _activeManager?.flickControlManager?.isMute ?? false;
     if (_isMute) {
-      _flickManagers.forEach((manager) => manager.flickControlManager?.mute());
+      for (var manager in _flickManagers) {
+        manager.flickControlManager?.mute();
+      }
     } else {
-      _flickManagers
-          .forEach((manager) => manager.flickControlManager?.unmute());
+      for (var manager in _flickManagers) {
+        manager.flickControlManager?.unmute();
+      }
+    }
+  }
+
+  toggleFullscreen() {
+    _isFullscreen = _activeManager?.flickControlManager?.isFullscreen ?? false;
+    if (!_isFullscreen) {
+      for (var manager in _flickManagers) {
+        manager.flickControlManager?.toggleFullscreen();
+      }
+    } else {
+      for (var manager in _flickManagers) {
+        manager.flickControlManager?.exitFullscreen();
+      }
     }
   }
 }

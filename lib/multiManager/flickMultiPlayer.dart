@@ -3,6 +3,8 @@ import 'dart:io';
 import 'package:flick_video_player/flick_video_player.dart';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:try_work/cachedImage.dart';
 import 'package:try_work/multiManager/flickMultiManager.dart';
 import 'package:try_work/portraitControls.dart';
@@ -81,12 +83,16 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
         : VisibilityDetector(
             key: ObjectKey(flickManager),
             onVisibilityChanged: (visiblityInfo) {
-              if (visiblityInfo.visibleFraction > 0.9) {
+              if (visiblityInfo.visibleFraction > 0.4) {
                 widget.flickMultiManager.play(flickManager);
               }
             },
             child: FlickVideoPlayer(
               flickManager: flickManager!,
+              preferredDeviceOrientationFullscreen: [
+                DeviceOrientation.landscapeLeft,
+                DeviceOrientation.landscapeRight
+              ],
               flickVideoWithControls: FlickVideoWithControls(
                 playerLoadingFallback: Positioned.fill(
                   child: Stack(
@@ -100,10 +106,14 @@ class _FlickMultiPlayerState extends State<FlickMultiPlayer> {
                           width: MediaQuery.of(context).size.width,
                         ),
                       ),
-                      Center(
-                        child: CircularProgressIndicator(
-                          backgroundColor: Colors.white,
-                          strokeWidth: 4,
+                      Align(
+                        alignment: Alignment.bottomCenter,
+                        child: LinearPercentIndicator(
+                          // width: 140.0,
+                          lineHeight: 5.0,
+                          percent: 0.5,
+                          backgroundColor: Colors.grey,
+                          progressColor: Color.fromARGB(255, 98, 98, 99),
                         ),
                       ),
                     ],

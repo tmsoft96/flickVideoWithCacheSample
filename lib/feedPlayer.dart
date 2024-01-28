@@ -36,7 +36,7 @@ class _FeedPlayerState extends State<FeedPlayer> {
     return VisibilityDetector(
       key: ObjectKey(flickMultiManager),
       onVisibilityChanged: (visibility) {
-        if (visibility.visibleFraction == 0 && this.mounted) {
+        if (visibility.visibleFraction == 0 && mounted) {
           flickMultiManager.pause();
         }
       },
@@ -67,7 +67,6 @@ class _FeedPlayerState extends State<FeedPlayer> {
       url,
       filePath: "$filePath",
       onDownloadComplete: (String? savePath) async {
-        print(savePath);
         mockData['items'][index]["cache"] = savePath;
         items = mockData["items"];
         setState(() {});
